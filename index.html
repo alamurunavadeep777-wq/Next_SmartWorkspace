@@ -1,30 +1,23 @@
-<!DOCTYPE html>
-<html>
+<div class="container">
 
-<head>
-<title>Fatigue Detection System</title>
-<link rel="stylesheet" href="style.css">
-</head>
+<h1>🚗 IoT Fatigue Detection Dashboard</h1>
 
-<body>
-
-<h1>IoT Fatigue Detection Dashboard</h1>
-
-<div class="box">
-
-<button onclick="getTemp()">Measure Temperature</button>
-<p>Temperature: <span id="temp">--</span> °C</p>
-
-<button onclick="getSound()">Measure Sound</button>
-<p>Sound Level: <span id="sound">--</span> dB</p>
-
-<button onclick="getLight()">Measure Light</button>
-<p>Light Intensity: <span id="light">--</span> lux</p>
-
+<div class="card">
+<h2>Temperature</h2>
+<p id="temp">-- °C</p>
+<button onclick="getTemp()">Measure</button>
 </div>
 
-<script src="script.js"></script>
+<div class="card">
+<h2>Sound</h2>
+<p id="sound">-- dB</p>
+<button onclick="getSound()">Measure</button>
+</div>
 
-</body>
+<div class="card">
+<h2>Light</h2>
+<p id="light">-- lux</p>
+<button onclick="getLight()">Measure</button>
+</div>
 
-</html>
+</div>
