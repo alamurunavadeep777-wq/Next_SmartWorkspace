@@ -1,23 +1,106 @@
-<div class="container">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fatigue Index</title>
 
-<h1>🚗 IoT Fatigue Detection Dashboard</h1>
+<link rel="stylesheet" href="style.css">
 
-<div class="card">
-<h2>Temperature</h2>
-<p id="temp">-- °C</p>
-<button onclick="getTemp()">Measure</button>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<header>Fatigue Index</header>
+
+<div class="grid">
+
+<!-- Top Left Quadrant -->
+<div class="quad quad-top-left">
+
+<div class="chart-card">
+<canvas id="tempChart"></canvas>
+<h4>Temperature</h4>
 </div>
 
-<div class="card">
-<h2>Sound</h2>
-<p id="sound">-- dB</p>
-<button onclick="getSound()">Measure</button>
+<div class="chart-card">
+<canvas id="durationChart"></canvas>
+<h4>Duration</h4>
 </div>
 
-<div class="card">
-<h2>Light</h2>
-<p id="light">-- lux</p>
-<button onclick="getLight()">Measure</button>
+<div class="chart-card">
+<canvas id="noiseChart"></canvas>
+<h4>Noise</h4>
+</div>
+
+<div class="chart-card">
+<canvas id="lightChart"></canvas>
+<h4>Lighting</h4>
 </div>
 
 </div>
+
+
+<!-- Top Right Quadrant -->
+
+<div class="quad">
+
+<div class="fatigue-container">
+
+<div class="fatigue-chart-wrapper">
+<canvas id="fatiguePie"></canvas>
+</div>
+
+<div id="statusLabel" class="status-label medium">
+Fatigue Index :- 33
+</div>
+
+</div>
+
+</div>
+
+
+<!-- Bottom Left -->
+
+<div class="quad">
+
+<div class="info-section">
+
+<h5>📊 Activity Log</h5>
+
+<p>Last updated: <span id="lastUpdate">Just now</span></p>
+
+<p>
+Temperature is within normal range.
+Monitor duration and noise levels.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Bottom Right -->
+
+<div class="quad">
+
+<div class="info-section">
+
+<h5>💡 Recommendations</h5>
+
+<p>• Take a 5-10 minute break every hour</p>
+<p>• Reduce ambient noise</p>
+<p>• Maintain temperature 20-24°C</p>
+<p>• Ensure proper lighting</p>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
