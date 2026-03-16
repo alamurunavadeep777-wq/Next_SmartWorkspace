@@ -1,13 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fatigue Index</title>
 
-<link rel="stylesheet" href="style.css">
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+height:100vh;
+font-family:Segoe UI;
+background:#0f1724;
+color:white;
+display:flex;
+flex-direction:column;
+}
+
+header{
+text-align:center;
+padding:20px;
+font-size:26px;
+font-weight:bold;
+background:#1a2332;
+}
+
+.grid{
+flex:1;
+display:grid;
+grid-template-columns:1fr 1fr;
+grid-template-rows:1fr 1fr;
+gap:16px;
+padding:16px;
+}
+
+.quad{
+background:#1e2a3a;
+border-radius:12px;
+padding:16px;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.quad-top-left{
+display:grid;
+grid-template-columns:1fr 1fr;
+grid-template-rows:1fr 1fr;
+gap:12px;
+width:100%;
+height:100%;
+}
+
+.chart-card{
+background:#2a3b4d;
+border-radius:10px;
+padding:12px;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+height:200px;
+width:200px;
+margin:auto;
+}
+
+.chart-card canvas{
+width:140px!important;
+height:140px!important;
+}
+
+.chart-card h4{
+margin-top:10px;
+font-size:14px;
+}
+
+.fatigue-container{
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+.fatigue-chart-wrapper{
+width:300px;
+height:300px;
+}
+
+.status-label{
+margin-top:12px;
+padding:8px 16px;
+border-radius:8px;
+font-weight:bold;
+background:#eab308;
+}
+
+</style>
+
 </head>
 
 <body>
@@ -16,7 +112,8 @@
 
 <div class="grid">
 
-<!-- Top Left Quadrant -->
+<!-- Charts Section -->
+
 <div class="quad quad-top-left">
 
 <div class="chart-card">
@@ -42,7 +139,7 @@
 </div>
 
 
-<!-- Top Right Quadrant -->
+<!-- Fatigue Index -->
 
 <div class="quad">
 
@@ -52,7 +149,7 @@
 <canvas id="fatiguePie"></canvas>
 </div>
 
-<div id="statusLabel" class="status-label medium">
+<div class="status-label">
 Fatigue Index :- 33
 </div>
 
@@ -60,47 +157,111 @@ Fatigue Index :- 33
 
 </div>
 
-
-<!-- Bottom Left -->
-
-<div class="quad">
-
-<div class="info-section">
-
-<h5>📊 Activity Log</h5>
-
-<p>Last updated: <span id="lastUpdate">Just now</span></p>
-
-<p>
-Temperature is within normal range.
-Monitor duration and noise levels.
-</p>
-
-</div>
-
 </div>
 
 
-<!-- Bottom Right -->
+<script>
 
-<div class="quad">
+// Example Data
+const data = {
 
-<div class="info-section">
+temperature:42,
+duration:63,
+noise:25,
+lighting:75,
+fatigueIndex:33
 
-<h5>💡 Recommendations</h5>
+};
 
-<p>• Take a 5-10 minute break every hour</p>
-<p>• Reduce ambient noise</p>
-<p>• Maintain temperature 20-24°C</p>
-<p>• Ensure proper lighting</p>
 
-</div>
+// Plugin to display percentage in center
+const centerTextPlugin = {
 
-</div>
+id:'centerText',
 
-</div>
+beforeDraw(chart){
 
-<script src="script.js"></script>
+if(chart.config.type !== 'doughnut' && chart.config.type !== 'pie')
+return;
+
+const {ctx,width,height} = chart;
+
+const value = chart.data.datasets[0].data[0];
+
+ctx.save();
+
+ctx.font = "bold 18px Segoe UI";
+ctx.fillStyle = "#ffffff";
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
+
+ctx.fillText(value + "%",width/2,height/2);
+
+ctx.restore();
+
+}
+
+};
+
+Chart.register(centerTextPlugin);
+
+
+// Function to create doughnut charts
+function createDoughnut(id,value,color){
+
+new Chart(document.getElementById(id),{
+
+type:'doughnut',
+
+data:{
+datasets:[{
+data:[value,100-value],
+backgroundColor:[color,'#2a3b4d'],
+borderWidth:0
+}]
+},
+
+options:{
+cutout:'70%',
+plugins:{
+legend:{display:false}
+}
+}
+
+});
+
+}
+
+
+// Create charts
+createDoughnut('tempChart',data.temperature,'#22c55e');
+createDoughnut('durationChart',data.duration,'#eab308');
+createDoughnut('noiseChart',data.noise,'#f97316');
+createDoughnut('lightChart',data.lighting,'#84cc16');
+
+
+// Fatigue Index chart
+new Chart(document.getElementById('fatiguePie'),{
+
+type:'pie',
+
+data:{
+datasets:[{
+data:[data.fatigueIndex,100-data.fatigueIndex],
+backgroundColor:['#eab308','#2a3b4d'],
+borderWidth:0
+}]
+},
+
+options:{
+plugins:{
+legend:{display:false}
+}
+}
+
+});
+
+</script>
 
 </body>
 </html>
